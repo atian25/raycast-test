@@ -9,9 +9,9 @@
   "license": "MIT",
   "commands": [
     {
-      "name": "index",
-      "title": "Test Raycast",
-      "description": "Template with a plain detail view",
+      "name": "fetch-npm-package-info",
+      "title": "Fetch NPM Package Info",
+      "description": "Fetch information about an npm package",
       "mode": "view"
     }
   ],
