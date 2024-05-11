@@ -13,6 +13,22 @@
       "title": "Test Raycast",
       "description": "Template with a plain detail view",
       "mode": "view"
+    },
+    {
+      "name": "fetch-npm-package-info",
+      "title": "Fetch NPM Package Info",
+      "description": "Fetches information about an NPM package",
+      "mode": "view"
+    }
+  ],
+  "preferences": [
+    {
+      "name": "npmRegistryURL",
+      "type": "textfield",
+      "title": "NPM Registry URL",
+      "description": "The URL of the NPM registry to fetch package info from",
+      "required": true,
+      "default": "https://registry.npmjs.org"
     }
   ],
   "dependencies": {
