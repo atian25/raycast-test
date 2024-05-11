@@ -1,4 +1,4 @@
-import { Detail, useFetch } from "@raycast/api";
+import { Detail, useFetch, ActionPanel, Action, Form, showToast, ToastStyle } from "@raycast/api";
 import { useState } from "react";
 
 export default function Command() {
@@ -8,9 +8,13 @@ export default function Command() {
     headers: {
       Accept: "application/json",
     },
-  });
+    keepalive: true,
+  }, [packageName]);
 
-  if (error) return <Detail markdown="## Error fetching package info" />;
+  if (error) {
+    showToast(ToastStyle.Failure, "Failed to fetch package info", error.toString());
+    return <Detail markdown="## Error fetching package info" />;
+  }
   if (isLoading) return <Detail markdown="## Loading..." />;
 
   const packageInfo = data ? (
@@ -20,10 +24,24 @@ export default function Command() {
 - **Latest Version:** ${data["dist-tags"].latest}
 - **Description:** ${data.description}
 - **Author:** ${data.author ? data.author.name : "N/A"}
+- **License:** ${data.license ? data.license : "N/A"}
+- **Homepage:** [${data.homepage}](${data.homepage})
 `}
+      actions={
+        <ActionPanel>
+          <Action.OpenInBrowser url={`https://www.npmjs.com/package/${packageName}`} />
+        </ActionPanel>
+      }
     />
   ) : (
-    <Detail markdown="## Please enter a package name" />
+    <Form
+      actions={
+        <ActionPanel>
+          <Action.SubmitForm title="Fetch Package Info" onSubmit={(values) => setPackageName(values.packageName)} />
+        </ActionPanel>
+      }>
+      <Form.TextField id="packageName" title="Package Name" placeholder="Enter NPM package name" />
+    </Form>
   );
 
   return packageInfo;
